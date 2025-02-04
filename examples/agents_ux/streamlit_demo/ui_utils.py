@@ -6,6 +6,16 @@ import json
 import math
 from src.utils.bedrock_agent import Task
 
+
+# check if data is JSON serializable
+def is_json_serializable(data):
+    try:
+        json.dumps(data)  # Try converting to JSON
+        return True
+    except (TypeError, ValueError):
+        return False
+
+
 def make_full_prompt(tasks, additional_instructions, processing_type="sequential"):
     """Build a full prompt from tasks and instructions."""
     prompt = ''
@@ -170,7 +180,11 @@ def process_orchestration_trace(event, agentClient, step):
 
         if 'finalResponse' in _obs:
             with st.expander("Agent Response", False, icon=":material/psychology:"):
-                st.write(_obs['finalResponse']['text'].replace('$', '\$'))
+                data = _obs['finalResponse']['text'].replace('$', '\$')
+                if is_json_serializable(data):
+                    st.json(data)  # Properly formatted JSON
+                else:
+                    st.write(data)  # Fallback for non-JSON data                
             
     return step, inputTokens, outputTokens
 
