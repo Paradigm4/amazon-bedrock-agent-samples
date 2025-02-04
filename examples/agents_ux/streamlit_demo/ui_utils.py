@@ -1,4 +1,5 @@
 import boto3
+import pandas as pd
 import streamlit as st
 import datetime
 import json
@@ -85,17 +86,31 @@ def process_orchestration_trace(event, agentClient, step):
                 st.write("query: " + _input["knowledgeBaseLookupInput"]["text"].replace('$', '\$'))
                 
         if "actionGroupInvocationInput" in _input:
-            function = _input["actionGroupInvocationInput"]["function"]
+            if 'function' in _input["actionGroupInvocationInput"].keys():
+                function = _input["actionGroupInvocationInput"]["function"]
+            elif 'apiPath' in _input["actionGroupInvocationInput"].keys():
+                function = _input["actionGroupInvocationInput"]["apiPath"]
+            else: 
+                function = "-"
+                st.warning("Expected action group invocation to be defined by 'function' or 'apiPath' key")
             with st.expander(f"Invoking Tool - {function}", False, icon=":material/plumbing:"):
                 st.write("function : " + function)
                 st.write("type: " + _input["actionGroupInvocationInput"]["executionType"])
                 if 'parameters' in _input["actionGroupInvocationInput"]:
-                    st.write("*Parameters*")
                     params = _input["actionGroupInvocationInput"]["parameters"]
-                    st.table({
-                        'Parameter Name': [p["name"] for p in params],
-                        'Parameter Value': [p["value"] for p in params]
-                    })
+                    # Create a dictionary dynamically with all keys (parameter names) and corresponding values
+                    table_data = {p["name"]: p["value"] for p in params if p["name"] not in ["session_id", "user_id"]}
+                    
+                    if len(table_data) > 0:
+                        st.write("*Parameters*")
+                        # Convert to DataFrame for proper table display
+                        st.table(pd.DataFrame(table_data.items(), columns=["Parameter Name", "Parameter Value"]))
+
+                # Handle case when lambda function is invoked via POST body
+                if 'requestBody' in _input["actionGroupInvocationInput"]:
+                    request_body = _input["actionGroupInvocationInput"]["requestBody"]["content"]["application/json"]
+                    st.write("*Payload*")
+                    st.write(request_body)
 
         if 'codeInterpreterInvocationInput' in _input:
             with st.expander("Code interpreter tool usage", False, icon=":material/psychology:"):
