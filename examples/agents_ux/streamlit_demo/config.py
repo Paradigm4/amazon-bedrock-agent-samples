@@ -3,35 +3,30 @@ import datetime
 # Bot configurations
 bot_configs = [
     {
-        "bot_name": "Restaurant Bookings React",
-        "agent_name": "restaurant-a-react",
-        "start_prompt": "Can you make a reservation for 2 people, at 7pm tonight?"
+        "bot_name": "Chat-at-Data Coordinator",
+        "agent_name": "poc-chat-at-data-coordinator",
+        "start_prompt": "What capabilities do you have?"
     }, 
     {
-        "bot_name": "Restaurant Bookings Rewoo",
-        "agent_name": "restaurant-a-rewoo",
-        "start_prompt": "Can you make a reservation for 2 people, at 7pm tonight?"
-    },        
+        "bot_name": "scXpress agent (poc)",
+        "agent_name": "poc-scxpress-chat",
+        "start_prompt": "Can you find the number of projects in scXpress?"
+    }, 
     {
-        "bot_name": "Portfolio Assistant",
-        "agent_name": "portfolio_assistant",
-        "start_prompt": "What stock ticker would you like to analyze?"
-    },
+        "bot_name": "Xpress agent (poc)",
+        "agent_name": "poc-xpress-chat",
+        "start_prompt": "Can you find the number of projects in Xpress?"
+    }, 
     {
-        "bot_name": "Sports Team Poet",
-        "agent_name": "sports_team_poet",
-        "start_prompt": "Name a sports team and I'll give you a cool poem."
-    },
+        "bot_name": "scXpress agent (senshark)",
+        "agent_name": "senshark-scxpress-chat",
+        "start_prompt": "Can you find the number of projects in scXpress?"
+    }, 
     {
-        "bot_name": "Trip Planner",
-        "agent_name": "trip_planner",
-        "start_prompt": "Tell me where you are going and for how long. I'll give you a great itinerary."
-    },
-    {
-        "bot_name": "Voyage Virtuoso",
-        "agent_name": "voyage_virtuoso",
-        "start_prompt": "Describe the exotic and elite trip you want and I'll give you some top options."
-    },
+        "bot_name": "Xpress agent (senshark)",
+        "agent_name": "senshark-xpress-chat",
+        "start_prompt": "Can you find the number of projects in Xpress?"
+    }, 
     {
         "bot_name": "Mortgages Assistant",
         "agent_name": "mortgages_assistant",
