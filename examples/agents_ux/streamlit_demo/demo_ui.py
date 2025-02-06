@@ -76,8 +76,11 @@ def main():
             with st.chat_message("assistant"):
                 try:
                     session_id = st.session_state['session_id']
+                    user_query_with_auth = """{user_query} (user_id: senshark, session_id: STRMLT)""".format(
+                        user_query=user_query
+                    )
                     response = st.write_stream(invoke_agent(
-                        user_query, 
+                        user_query_with_auth, 
                         session_id, 
                         st.session_state['task_yaml_content']
                     ))
