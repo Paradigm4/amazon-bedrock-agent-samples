@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . .
+COPY src src 
+COPY examples/agents_ux/streamlit_demo/* .
 
 RUN pip3 install -r src/requirements.txt
 
@@ -19,4 +20,4 @@ EXPOSE 8501
 
 HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health
 
-ENTRYPOINT ["streamlit", "run", "examples/agents_ux/streamlit_demo/demo_ui.py", "--server.port=8501", "--server.address=0.0.0.0"]
+ENTRYPOINT ["streamlit", "run", "demo_ui.py", "--server.port=8501", "--server.address=0.0.0.0"]
